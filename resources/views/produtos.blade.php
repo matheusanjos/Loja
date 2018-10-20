@@ -22,7 +22,9 @@
           <td>{{$p->id}}</td>
           <td>{{$p->nome}}</td>
           <td>{{$p->descricao}}</td>
-          <td>{{$p->imagem}}</td>
+          <td>
+            <img src="{{ asset('storage/'.$p->imagem) }}" alt="{{$p->nome}}" width="100" height="100">
+          </td>
           <td>{{$p->preco}}</td>
           <td>{{$p->quantidade}}</td>
           <td>{{$p->id_categoria}}</td>

@@ -48,7 +48,7 @@ class ProdutoController extends Controller
         $produtos->preco = $request->pcProduto;
         $produtos->id_categoria = $request->catProduto;
         $produtos->save();
-        return redirect('/produtos'); 
+        return redirect('/produtos');
     }
 
     /**
