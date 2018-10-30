@@ -16,8 +16,9 @@ class ProdutoController extends Controller
      */
     public function index()
     {
+        $cats = Categoria::all();
         $produtos = Produto::all();
-        return view('produtos', compact('produtos'));
+        return view('produtos', compact('cats', 'produtos'));
     }
 
     /**
@@ -39,15 +40,15 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        $produtos = new Produto();
-        $produtos->nome = $request->nomeProduto;
-        $produtos->descricao = $request->descProduto;
+        $produto = new Produto();
+        $produto->nome = $request->nomeProduto;
+        $produto->descricao = $request->descProduto;
         $path = $request->file('imagemProduto')->store('images', 'public');
-        $produtos->imagem = $path;
-        $produtos->quantidade = $request->qtdProduto;
-        $produtos->preco = $request->pcProduto;
-        $produtos->id_categoria = $request->catProduto;
-        $produtos->save();
+        $produto->imagem = $path;
+        $produto->quantidade = $request->qtdProduto;
+        $produto->preco = $request->pcProduto;
+        $produto->id_categoria = $request->catProduto;
+        $produto->save();
         return redirect('/produtos');
     }
 
@@ -70,7 +71,9 @@ class ProdutoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cats = Categoria::all();
+        $p = Produto::find($id);
+        return view('produto-editar', compact('cats', 'p'));
     }
 
     /**
@@ -82,7 +85,20 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $produto = Produto::find($id);
+        $produto->nome = $request->nomeProduto;
+        $produto->descricao = $request->descProduto;
+        if($request->file('imagemProduto') != null)
+        {
+            $path = $request->file('imagemProduto')->store('images', 'public');
+            $produto->imagem = $path;
+            \Storage::disk('public')->delete($img_antiga);
+        }
+        $produto->quantidade = $request->qtdProduto;
+        $produto->preco = $request->pcProduto;
+        $produto->id_categoria = $request->input('catProduto');
+        $produto->save();
+        return redirect('/produtos');
     }
 
     /**
@@ -93,6 +109,9 @@ class ProdutoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produto = Produto::find($id);
+        \Storage::disk('public')->delete($produto->imagem);
+        $produto->delete();
+        return redirect('/produtos');
     }
 }

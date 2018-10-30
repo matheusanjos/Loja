@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/', function(){
     return view('principal');
 });
@@ -30,6 +26,7 @@ Route::get('/categorias/restaurar/{id}', 'CategoriaController@restore');
 Route::get('/produtos', 'ProdutoController@index');
 Route::get('/produtos/novo', 'ProdutoController@create');
 Route::get('/produtos/editar/{id}', 'ProdutoController@edit');
+Route::post('/produtos/editar/{id}', 'ProdutoController@update');
 Route::get('/produtos/apagar/{id}', 'ProdutoController@destroy');
 Route::post('/produtos', 'ProdutoController@store');
 

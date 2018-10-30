@@ -2,7 +2,7 @@
 
 @section('body')
     <h1>Editar categoria</h1>
-    <form action = "/categorias/editar/{{$categoria->id}}" method="POST">
+    <form action = "/categorias/editar/{{ $categoria->id }}" method="POST">
         @csrf
         <div class = "form-group">        
             <label for="nome">Nome da Categoria</label>
